@@ -1,0 +1,96 @@
+Question :  The system admins team of xFusionCorp Industries has set up some scripts on jump host that run on regular intervals and perform operations on all app servers in Stratos Datacenter. To make these scripts work properly we need to make sure thor user on jump host has password-less SSH access to all app servers through their respective sudo users. Based on the requirements, perform the following:
+
+Set up a password-less authentication from user thor on jump host to all app servers through their respective sudo users.
+
+
+Solution:  
+1.  1st check your login as thor user  on the server  & create a key by below command    
+
+thor@jump_host /$ whoami
+
+thor
+
+thor@jump_host /$ ssh-keygen -t rsa
+
+Generating public/private rsa key pair.
+
+Enter file in which to save the key (/home/thor/.ssh/id_rsa):
+
+Created directory '/home/thor/.ssh'.
+
+Enter passphrase (empty for no passphrase):
+
+Enter same passphrase again:
+
+Your identification has been saved in /home/thor/.ssh/id_rsa.
+
+Your public key has been saved in /home/thor/.ssh/id_rsa.pub.
+
+The key fingerprint is:
+
+SHA256:C53Y8Nv5Vgiw7U9caxZQmLXsFgTPgtH0I/Hf+DspAOU thor@jump_host.stratos.xfusioncorp.com
+
+The key's randomart image is:
+
++---[RSA 2048]----+
+
+|          .o+*+  |
+
+|        .  +=O . |
+
+|      .  ++ o.X  |
+
+|       *.ooE +o=.|
+
+|      o S..o o+oo|
+
+|       . +.o+.=. |
+
+|        o oo.+  o|
+
+|           .o. o.|
+
+|           .. ...|
+
++----[SHA256]-----+
+
+thor@jump_host /$
+
+2.  Copy public key by below command on all the APP server's   
+
+thor@jump_host /$ ssh-copy-id  tony@stapp01
+
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/thor/.ssh/id_rsa.pub"
+
+The authenticity of host 'stapp01 (172.16.238.10)' can't be established.
+
+ECDSA key fingerprint is SHA256:xOTel/1W6Mx6p3t62XZazZrYXBOpWE/zS9+OL2HeNgY.
+
+ECDSA key fingerprint is MD5:a2:2e:85:cc:9e:0c:da:b0:f8:d9:dc:03:c2:3f:27:50.
+
+Are you sure you want to continue connecting (yes/no)? yes
+
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+tony@stapp01's password:
+
+ Number of key(s) added: 1
+
+ Now try logging into the machine, with:   "ssh 'tony@stapp01'"
+
+and check to make sure that only the key(s) you wanted were added.
+
+ thor@jump_host /$
+
+
+3.  Now try logging into the APP server without password. in this eg. I am login on stapp01
+
+thor@jump_host /$ ssh tony@stapp01
+
+[tony@stapp01 ~]$ whoami
+
+tony
+
+[tony@stapp01 ~]$
