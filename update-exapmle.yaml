@@ -1,0 +1,9 @@
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties: 
+      InstanceType : t2.micro
+      ImageId : ami-026b57f3c383c2eec 
+      Tags:  
+        - key: "Name"
+          Value: "FslInstance"
